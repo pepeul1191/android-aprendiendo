@@ -1,4 +1,4 @@
-package pe.edu.ulima.aprendiendo.model
+package pe.edu.ulima.aprendiendo.models.views
 
 data class QuoteModel (
     val quote: String,

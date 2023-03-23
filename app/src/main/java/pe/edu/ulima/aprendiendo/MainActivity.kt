@@ -6,8 +6,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import pe.edu.ulima.aprendiendo.databinding.ActivityMainBinding
-import pe.edu.ulima.aprendiendo.model.QuoteModel
-import pe.edu.ulima.aprendiendo.viewmodel.QuoteViewModel
+import pe.edu.ulima.aprendiendo.viewmodels.QuoteViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -24,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         })
 
         binding.viewContainer.setOnClickListener {
-            Log.d("click", "+++++++++++++++++++")
             quoteViewModel.randomQuote()
         }
     }

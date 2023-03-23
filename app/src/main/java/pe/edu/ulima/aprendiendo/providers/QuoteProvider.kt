@@ -1,6 +1,6 @@
-package pe.edu.ulima.aprendiendo.provider
+package pe.edu.ulima.aprendiendo.providers
 
-import pe.edu.ulima.aprendiendo.model.QuoteModel
+import pe.edu.ulima.aprendiendo.models.views.QuoteModel
 
 class QuoteProvider {
     companion object {
@@ -12,7 +12,7 @@ class QuoteProvider {
             QuoteModel("Lo peor que hacen los malos es obligarnos a dudar de los buenos ", "Jacinto Benavente"),
         )
 
-        fun random(): QuoteModel{
+        fun random(): QuoteModel {
             val position: Int = (0..4).random()
             return quotes[position]
         }
