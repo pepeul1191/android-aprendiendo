@@ -17,9 +17,9 @@ class PokemonListAdapter(): RecyclerView.Adapter<PokemonListViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: PokemonListViewHolder, position: Int) {
-        Log.d("onBindViewHolder", holder.tvName.toString())
         val pokemon = pokemonList[position]
         holder.render(pokemon)
+        holder.resetState()
     }
 
     override fun getItemCount(): Int {

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".activities.PokemonListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPokemons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:clipToPadding = "false"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
 
     </androidx.recyclerview.widget.RecyclerView>
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

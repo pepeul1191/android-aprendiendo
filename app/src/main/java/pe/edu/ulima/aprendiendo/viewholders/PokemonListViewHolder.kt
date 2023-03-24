@@ -27,4 +27,8 @@ class PokemonListViewHolder(view: View): RecyclerView.ViewHolder(view) {
             .load(pokemon.imageURL)
             .into(ivImageURL)
     }
+
+    fun resetState() {
+
+    }
 }

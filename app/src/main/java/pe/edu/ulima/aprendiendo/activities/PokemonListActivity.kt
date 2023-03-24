@@ -26,12 +26,8 @@ class PokemonListActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         // observer
         pokemonListViewModel.items.observe(this) { items ->
-            Log.d("PokemonListActivity", items.toString())
-            runOnUiThread{
-                Log.d("PokemonListActivity", "uiTheard")
-                adapter.pokemonList = items
-                adapter.notifyDataSetChanged()
-            }
+            adapter.pokemonList = items
+            adapter.notifyDataSetChanged()
         }
         // fecth and list
         pokemonListViewModel.fetch("", this)
