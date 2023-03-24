@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import pe.edu.ulima.aprendiendo.adapters.PokemonListAdapter
 import pe.edu.ulima.aprendiendo.databinding.ActivityPokemonListBinding
@@ -50,5 +52,29 @@ class PokemonListActivity : AppCompatActivity() {
                 // Do nothing
             }
         })
+        binding.bPokemonTypes.setOnClickListener(){
+            val items = arrayOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5")
+            val checkedItems = booleanArrayOf(false, false, false, false, false)
+
+            val builder = AlertDialog.Builder(activity)
+            builder.setTitle("Choose items")
+            builder.setMultiChoiceItems(items, checkedItems) { dialog, which, isChecked ->
+                checkedItems[which] = isChecked
+            }
+            builder.setPositiveButton("OK") { dialog, which ->
+                // Handle OK button click
+                val selectedItems = mutableListOf<String>()
+                for (i in items.indices) {
+                    if (checkedItems[i]) {
+                        selectedItems.add(items[i])
+                    }
+                }
+                Toast.makeText(activity, "Selected items: ${selectedItems.joinToString(", ")}", Toast.LENGTH_SHORT).show()
+            }
+            builder.setNegativeButton("Cancel", null)
+
+            val dialog = builder.create()
+            dialog.show()
+        }
     }
 }

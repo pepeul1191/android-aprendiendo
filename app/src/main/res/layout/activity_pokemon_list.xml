@@ -34,6 +34,14 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBaseline_toTopOf="parent">
             </EditText>
+            <Button
+                android:textSize="16dp"
+                android:id="@+id/bPokemonTypes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipos de Pokemones"
+                app:layout_constraintBaseline_toTopOf="parent">
+            </Button>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

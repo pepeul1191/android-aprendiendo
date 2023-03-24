@@ -29,18 +29,32 @@ class PokemonListViewModel: ViewModel() {
         viewModelScope.launch {
             val apiService = BackendClient.buildService(PokemonService::class.java)
             thread{
-                val response = apiService.fetch(pokemonName).execute()
-                if (response.isSuccessful) {
-                    // Log.d("PokemonListViewModel", response.body().toString())
-                    _pokemonList.postValue(response.body())
-                } else {
-                    // Handle error
-                    Toast.makeText(
-                        activity,
-                        "Error: No se pudo traer la lista de pokemones",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                try {
+                    val response = apiService.fetch(pokemonName).execute()
+                    if (response.isSuccessful) {
+                        // Log.d("PokemonListViewModel", response.body().toString())
+                        _pokemonList.postValue(response.body())
+                    } else {
+                        // Handle error
+                        activity.runOnUiThread{
+                            Toast.makeText(
+                                activity,
+                                "Error: No se pudo mostrar la lista de pokemones",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    activity.runOnUiThread{
+                        Toast.makeText(
+                            activity,
+                            "Error HTTP: No se pudo traer la lista de pokemones",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
+
             }
         }
     }
