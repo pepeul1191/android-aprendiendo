@@ -6,13 +6,48 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".activities.PokemonListActivity">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPokemons"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:clipToPadding = "false"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="0dp"
+            app:layout_constraintBaseline_toTopOf="parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                app:layout_constraintBaseline_toTopOf="parent"
+                android:text="Nombre de Pokemon">
+            </TextView>
+            <EditText
+                android:textSize="16dp"
+                android:id="@+id/etPokemonName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBaseline_toTopOf="parent">
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            app:layout_constraintBaseline_toBottomOf="@id/form">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPokemons"
+                android:layout_width="match_parent"
+                android:clipToPadding = "false"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints">
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
