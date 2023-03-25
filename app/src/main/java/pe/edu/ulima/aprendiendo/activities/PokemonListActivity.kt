@@ -77,6 +77,7 @@ class PokemonListActivity : AppCompatActivity() {
                 Toast.makeText(activity, "Selected items: ${selectedItems.joinToString(", ")}", Toast.LENGTH_SHORT).show()
                 // update model
                 pokemonListViewModel.updateGenerations(selectedItems.toList(), unSelectedItems.toList())
+                pokemonListViewModel.fetch(binding.etPokemonName.text.toString(), activity)
             }
             builder.setNegativeButton("Cancelar", null)
             val dialog = builder.create()

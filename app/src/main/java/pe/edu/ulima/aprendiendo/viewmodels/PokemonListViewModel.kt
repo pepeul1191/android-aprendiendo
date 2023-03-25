@@ -23,27 +23,46 @@ class PokemonListViewModel: ViewModel() {
     val generationList: LiveData<List<GenerationOption>> = _generationList
 
     fun fetch(pokemonName: String, activity: Activity) {
+        // generate generations id string for query parameter
+        var generationIds: String = "";
+        _generationList.value?.forEach { item ->
+            if(item.selected){
+                generationIds += "${item.id}||"
+            }
+        }
+        if(generationIds.length > 0){
+            generationIds = generationIds.substring(0, generationIds.length - 2)
+        }
+        // update model with retrofit
         viewModelScope.launch {
             val apiService = BackendClient.buildService(PokemonService::class.java)
             thread{
                 try {
-                    val response = apiService.fetch(pokemonName).execute()
+                    val response = apiService.fetch(pokemonName, generationIds).execute()
                     if (response.isSuccessful) {
                         // Log.d("PokemonListViewModel", response.body().toString())
                         _pokemonList.postValue(response.body())
                         val dataFechted = response.body()
                         val tmpListPokemonGenerationOption = mutableListOf<GenerationOption>()
-                        if (dataFechted != null) {
-                            for(pokemon in dataFechted){
-                                if(genertionNameInList(pokemon.generationName, tmpListPokemonGenerationOption) == false){
-                                    tmpListPokemonGenerationOption.add(GenerationOption(
-                                        pokemon.generationId,
-                                        pokemon.generationName,
-                                        false
-                                    ))
+                        if(generationIds.length == 0){
+                            if (dataFechted != null) {
+                                for (pokemon in dataFechted) {
+                                    if (genertionNameInList(
+                                            pokemon.generationName,
+                                            tmpListPokemonGenerationOption
+                                        ) == false
+                                    ) {
+                                        tmpListPokemonGenerationOption.add(
+                                            GenerationOption(
+                                                pokemon.generationId,
+                                                pokemon.generationName,
+                                                false
+                                            )
+                                        )
+                                    }
                                 }
+                                _generationList.postValue(tmpListPokemonGenerationOption.toList())
                             }
-                            _generationList.postValue(tmpListPokemonGenerationOption.toList())
                         }
                         // var newPokemonTypeList = generatePokemonTypeList()
                     } else {
