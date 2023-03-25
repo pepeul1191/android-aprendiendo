@@ -8,22 +8,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pe.edu.ulima.aprendiendo.activities.PokemonListActivity
 import pe.edu.ulima.aprendiendo.configs.BackendClient
 import pe.edu.ulima.aprendiendo.models.beans.PokemonGeneration
-import pe.edu.ulima.aprendiendo.models.responses.PokemonListResponse
-import pe.edu.ulima.aprendiendo.models.views.QuoteModel
-import pe.edu.ulima.aprendiendo.providers.PokemonListProvider
-import pe.edu.ulima.aprendiendo.providers.QuoteProvider
+import pe.edu.ulima.aprendiendo.models.beans.GenerationOption
 import pe.edu.ulima.aprendiendo.services.PokemonService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import kotlin.concurrent.thread
 
 class PokemonListViewModel: ViewModel() {
+    // list of pokemons
     private val _pokemonList = MutableLiveData<List<PokemonGeneration>>()
     val items: LiveData<List<PokemonGeneration>> = _pokemonList
+    // list of pokemons types
+    private var _generationList = MutableLiveData<List<GenerationOption>>()
+    val generationList: LiveData<List<GenerationOption>> = _generationList
 
     fun fetch(pokemonName: String, activity: Activity) {
         viewModelScope.launch {
@@ -34,6 +31,21 @@ class PokemonListViewModel: ViewModel() {
                     if (response.isSuccessful) {
                         // Log.d("PokemonListViewModel", response.body().toString())
                         _pokemonList.postValue(response.body())
+                        val dataFechted = response.body()
+                        val tmpListPokemonGenerationOption = mutableListOf<GenerationOption>()
+                        if (dataFechted != null) {
+                            for(pokemon in dataFechted){
+                                if(genertionNameInList(pokemon.generationName, tmpListPokemonGenerationOption) == false){
+                                    tmpListPokemonGenerationOption.add(GenerationOption(
+                                        pokemon.generationId,
+                                        pokemon.generationName,
+                                        false
+                                    ))
+                                }
+                            }
+                            _generationList.postValue(tmpListPokemonGenerationOption.toList())
+                        }
+                        // var newPokemonTypeList = generatePokemonTypeList()
                     } else {
                         // Handle error
                         activity.runOnUiThread{
@@ -55,6 +67,38 @@ class PokemonListViewModel: ViewModel() {
                     }
                 }
 
+            }
+        }
+    }
+
+    private fun genertionNameInList(generationName: String, tmpGenerationList: MutableList<GenerationOption>): Boolean{
+        var exist: Boolean = false
+        tmpGenerationList.forEach{
+            if(it.name == generationName) {
+                exist = true
+                return@forEach
+            }
+        }
+        return exist
+    }
+
+    fun updateGenerations(selectedItems: List<String>, unSelectedItems: List<String>){
+        // select
+        selectedItems.forEach{
+            val generationName = it
+            _generationList.value?.forEach { item ->
+                if (item.name == generationName) {
+                    item.selected = true
+                }
+            }
+        }
+        // unselect
+        unSelectedItems.forEach{
+            val generationName = it
+            _generationList.value?.forEach { item ->
+                if (item.name == generationName) {
+                    item.selected = false
+                }
             }
         }
     }

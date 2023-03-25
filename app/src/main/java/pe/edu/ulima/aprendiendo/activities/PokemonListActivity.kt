@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import pe.edu.ulima.aprendiendo.adapters.PokemonListAdapter
 import pe.edu.ulima.aprendiendo.databinding.ActivityPokemonListBinding
+import pe.edu.ulima.aprendiendo.models.beans.GenerationOption
 import pe.edu.ulima.aprendiendo.models.responses.PokemonListResponse
 import pe.edu.ulima.aprendiendo.viewmodels.PokemonListViewModel
 
@@ -18,6 +19,7 @@ class PokemonListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPokemonListBinding
     private val adapter = PokemonListAdapter()
     private val activity = this
+    private var generationOptions = listOf<GenerationOption>()
     private val pokemonListViewModel: PokemonListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +36,9 @@ class PokemonListActivity : AppCompatActivity() {
             adapter.pokemonList = items
             adapter.notifyDataSetChanged()
         }
+        pokemonListViewModel.generationList.observe(this) {items ->
+            generationOptions = items
+        }
         // fecth and list
         pokemonListViewModel.fetch("", this)
         // events
@@ -42,10 +47,7 @@ class PokemonListActivity : AppCompatActivity() {
                 // Do nothing
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Update the text variable with the new text
                 val text = s.toString()
-                // Do something with the text
-                // Log.d("onTextChanged", "Text: $text")
                 pokemonListViewModel.fetch(text, activity)
             }
             override fun afterTextChanged(s: Editable?) {
@@ -53,26 +55,30 @@ class PokemonListActivity : AppCompatActivity() {
             }
         })
         binding.bPokemonTypes.setOnClickListener(){
-            val items = arrayOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5")
-            val checkedItems = booleanArrayOf(false, false, false, false, false)
-
+             // options
+            val items: Array<String> = (generationOptions.map { it.name }).toTypedArray()
+            val checkedItems: BooleanArray = (generationOptions.map { it.selected }).toTypedArray().toBooleanArray()
+            // dialog
             val builder = AlertDialog.Builder(activity)
-            builder.setTitle("Choose items")
+            builder.setTitle("Filtro por Generación")
             builder.setMultiChoiceItems(items, checkedItems) { dialog, which, isChecked ->
                 checkedItems[which] = isChecked
             }
-            builder.setPositiveButton("OK") { dialog, which ->
-                // Handle OK button click
+            builder.setPositiveButton("Aceptar") { dialog, which ->
                 val selectedItems = mutableListOf<String>()
+                val unSelectedItems = mutableListOf<String>()
                 for (i in items.indices) {
                     if (checkedItems[i]) {
                         selectedItems.add(items[i])
+                    }else{
+                        unSelectedItems.add(items[i])
                     }
                 }
                 Toast.makeText(activity, "Selected items: ${selectedItems.joinToString(", ")}", Toast.LENGTH_SHORT).show()
+                // update model
+                pokemonListViewModel.updateGenerations(selectedItems.toList(), unSelectedItems.toList())
             }
-            builder.setNegativeButton("Cancel", null)
-
+            builder.setNegativeButton("Cancelar", null)
             val dialog = builder.create()
             dialog.show()
         }

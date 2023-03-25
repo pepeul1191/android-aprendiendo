@@ -35,7 +35,7 @@
                 app:layout_constraintBaseline_toTopOf="parent">
             </EditText>
             <Button
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:id="@+id/bPokemonTypes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
