@@ -53,7 +53,7 @@ class UploadActivity : AppCompatActivity() {
             uploadViewModel.updateExtraData(binding.etExtraData.text.toString())
             val model = uploadViewModel.uploadModel.value
             // send file
-            val file = File("/data/data/pe.edu.ulima.aprendiendo/files/6002057493.jpg")
+            val file = File(model?.imgRoute)
             val fileRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
             val requestBody = MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -62,25 +62,19 @@ class UploadActivity : AppCompatActivity() {
                 .build()
             val filePart = requestBody.part(0)
             val extraDataBody = RequestBody.create(MediaType.parse("text/plain"), model?.extraData)
-
-
             val apiService = BackendClient.buildService(UploadService::class.java)
-            println("0 ++++++++++++++++++++++++++++++++++")
             thread{
                 try {
                     val response = apiService.uploadFile(filePart, extraDataBody).execute()
                     if (response.isSuccessful) {
                         // Log.d("PokemonListViewModel", response.body().toString())
-                        println("1 ++++++++++++++++++++++++++++++++++")
-                        println(response.body())
-                        println("2 ++++++++++++++++++++++++++++++++++")
                         // var newPokemonTypeList = generatePokemonTypeList()
                     } else {
                         // Handle error
                         activity.runOnUiThread{
                             Toast.makeText(
                                 activity,
-                                "Error: Problemas al enviar el formulario",
+                                "Error: No se completó la operación",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -111,11 +105,11 @@ class UploadActivity : AppCompatActivity() {
                     // show image
                     binding.ivImage.setImageURI(uri)
                     // move image to internal storage
-                    FileHelper.moveFileToAppStorage(this, uri)
+                    var tmpPath = FileHelper.moveFileToAppStorage(this, uri)
                     // update model
-                    val filePath = FileHelper.getRealPathFromUri(this, uri)
+                    // val filePath = FileHelper.getRealPathFromUri(this, uri)
                     // val extension = FileHelper.getFileExtensionFromUri(this, uri)
-                    uploadViewModel.updateImgRoute(filePath.toString())
+                    uploadViewModel.updateImgRoute(tmpPath.toString())
                 }
             }
         }

@@ -30,15 +30,15 @@ class FileHelper {
         }
 
         fun randomFileName(extension: String): String{
-            val charPool: List<Char> = ('0'..'9').toList()
-            val randomString = (1..10)
+            val charPool: List<Char> = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+            val randomString = (1..20)
                 .map { _ -> kotlin.random.Random.nextInt(0, charPool.size) }
                 .map(charPool::get)
                 .joinToString("")
             return "$randomString.$extension"
         }
 
-        fun moveFileToAppStorage(activity: Activity, uri: Uri){
+        fun moveFileToAppStorage(activity: Activity, uri: Uri): String{
             val inputStream = activity.contentResolver.openInputStream(uri)
             val filename = randomFileName(
                 getFileExtensionFromUri(activity, uri)
@@ -54,6 +54,7 @@ class FileHelper {
                 inputStream.close()
             }
             outputStream.close()
+            return "${activity.filesDir.absolutePath}/$filename"
         }
     }
 }
