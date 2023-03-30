@@ -1,4 +1,4 @@
-package pe.edu.ulima.aprendiendo
+package pe.edu.ulima.aprendiendo.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

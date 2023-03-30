@@ -28,6 +28,8 @@ class UploadActivity : AppCompatActivity() {
     private val activity = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // tmp folder
+        FileHelper.createTmpFolder(this)
         super.onCreate(savedInstanceState)
         // view binding
         binding = ActivityUploadBinding.inflate(layoutInflater)

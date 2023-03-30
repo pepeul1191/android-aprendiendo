@@ -8,4 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#FF3700B3</color>
+    <!--Custom-->
+    <color name="iconColor">#292929</color>
+    <color name="green123">#FF4CAF50</color>
 </resources>

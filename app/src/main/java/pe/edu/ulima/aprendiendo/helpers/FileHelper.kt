@@ -4,9 +4,25 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
+import java.io.File
 
 class FileHelper {
     companion object {
+        fun createTmpFolder(activity: Activity){
+            val file = File(activity.filesDir, "tmp")
+            if (!file.exists()) {
+                file.mkdir()
+            }
+        }
+
+        fun resetTmpFolder(activity: Activity){
+            val file = File(activity.filesDir, "tmp")
+            if (!file.exists()) {
+                file.delete()
+            }
+            file.mkdir()
+        }
+
         fun getRealPathFromUri(activity: Activity, uri: Uri): String? {
             val projection = arrayOf(MediaStore.Images.Media.DATA)
             val cursor = activity.contentResolver.query(uri, projection, null, null, null)
