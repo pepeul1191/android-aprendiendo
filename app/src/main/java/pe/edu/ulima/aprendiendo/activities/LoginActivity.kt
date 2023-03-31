@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import pe.edu.ulima.aprendiendo.activities.ui.login.ui.LoginScreen
 import pe.edu.ulima.aprendiendo.activities.ui.theme.AprendiendoTheme
+import pe.edu.ulima.aprendiendo.navigations.LoginNavigation
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +24,7 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LoginScreen()
+                    LoginNavigation()
                 }
             }
         }

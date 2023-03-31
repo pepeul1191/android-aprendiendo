@@ -17,26 +17,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import pe.edu.ulima.aprendiendo.R
 
+
 @Preview
 @Composable
-fun LoginScreenPreview() {
-    LoginScreen(
-        goToSignIn = {},
-        goToResetPassword = {},
+fun ResetPasswordScreenPreview() {
+    ResetPasswordScreen(
+        goToLogin = {},
+        goToSignIn = {}
     )
 }
 
 @Composable
-public fun LoginScreen(
-    goToSignIn: () -> Unit,
-    goToResetPassword: () -> Unit
+fun ResetPasswordScreen(
+    goToLogin: () -> Unit,
+    goToSignIn: () -> Unit
 ) {
     val context = LocalContext.current as Activity
-    var userTState by remember { mutableStateOf(TextFieldValue()) }
-    var passwordTState by remember { mutableStateOf(TextFieldValue()) }
+    var emailTState by remember { mutableStateOf(TextFieldValue()) }
 
     val onClick: () -> Unit = {
         context.finish()
@@ -71,29 +72,14 @@ public fun LoginScreen(
             )
             // title
             Text(
-                text = "Ingresar al Sistema",
+                text = "Generar Nueva Contraseña",
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
             )
-            // usuario
+            // correo
             TextField(
-                value = userTState,
-                onValueChange = { userTState = it },
-                label = { Text("Usuario") },
-                placeholder = { Text("") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 0.dp),
-                singleLine = true,
-                maxLines = 1,
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.Transparent,
-                )
-            )
-            // contraeña
-            TextField(
-                value = passwordTState,
-                onValueChange = { passwordTState = it },
-                label = { Text("Contraseña") },
+                value = emailTState,
+                onValueChange = { emailTState = it },
+                label = { Text("Correo") },
                 placeholder = { Text("") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -112,27 +98,7 @@ public fun LoginScreen(
                     .padding(top = 15.dp)
                     .fillMaxWidth(),
             ) {
-                Text(("Ingresar").toUpperCase())
-            }
-            // login with google button
-            Button(
-                onClick = {},
-                shape = CutCornerShape(0),
-                modifier = Modifier
-                    .padding(top = 0.dp)
-                    .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF4CAF50))
-            ) {
-                Image(
-                    painterResource(id = R.drawable.ic_google),
-                    contentDescription ="Cart button icon",
-                    modifier = Modifier.size(22.dp).padding(end = 10.dp),
-                    colorFilter = ColorFilter.tint(Color.White)
-                )
-                Text(
-                    ("Ingresar con Google").toUpperCase(),
-                    color = Color.White
-                )
+                Text(("Enviar Correo").toUpperCase())
             }
             // hr
             Divider(
@@ -140,25 +106,25 @@ public fun LoginScreen(
                 thickness = 2.dp,
                 color = Color.Gray
             )
-            // sign in button
+            // login in button
             Button(
-                onClick = { goToSignIn() },
+                onClick = { goToLogin() },
                 shape = CutCornerShape(0),
                 modifier = Modifier
                     .padding(top = 0.dp)
                     .fillMaxWidth(),
             ) {
-                Text(("Ir a Crear Cuenta").toUpperCase())
+                Text(("Ir a Ingresar al Sistema").toUpperCase())
             }
-            // reset password in button
+            // sign in button
             Button(
-                onClick = { goToResetPassword() },
+                onClick = { goToSignIn() },
                 shape = CutCornerShape(0),
                 modifier = Modifier
                     .padding(top = 2.dp)
                     .fillMaxWidth(),
             ) {
-                Text(("Ir a Recuperar Contraseña").toUpperCase())
+                Text(("Ir a Crear Cuenta").toUpperCase())
             }
         }
     }

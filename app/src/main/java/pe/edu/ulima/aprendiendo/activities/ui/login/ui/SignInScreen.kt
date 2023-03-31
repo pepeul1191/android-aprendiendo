@@ -18,25 +18,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import pe.edu.ulima.aprendiendo.R
 
 @Preview
 @Composable
-fun LoginScreenPreview() {
-    LoginScreen(
-        goToSignIn = {},
+fun SignInScreenPreview() {
+    SignInScreen(
+        goToLogin = {},
         goToResetPassword = {},
     )
 }
 
 @Composable
-public fun LoginScreen(
-    goToSignIn: () -> Unit,
+public fun SignInScreen(
+    goToLogin: () -> Unit,
     goToResetPassword: () -> Unit
 ) {
     val context = LocalContext.current as Activity
+    var emailTState by remember { mutableStateOf(TextFieldValue()) }
     var userTState by remember { mutableStateOf(TextFieldValue()) }
     var passwordTState by remember { mutableStateOf(TextFieldValue()) }
+    var password2TState by remember { mutableStateOf(TextFieldValue()) }
 
     val onClick: () -> Unit = {
         context.finish()
@@ -71,8 +74,23 @@ public fun LoginScreen(
             )
             // title
             Text(
-                text = "Ingresar al Sistema",
+                text = "Crear Cuenta",
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+            )
+            // email
+            TextField(
+                value = emailTState,
+                onValueChange = { emailTState = it },
+                label = { Text("Correo Electrónico") },
+                placeholder = { Text("") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 0.dp),
+                singleLine = true,
+                maxLines = 1,
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.Transparent,
+                )
             )
             // usuario
             TextField(
@@ -104,6 +122,21 @@ public fun LoginScreen(
                     backgroundColor = Color.Transparent,
                 )
             )
+            // contraeña2
+            TextField(
+                value = password2TState,
+                onValueChange = { password2TState = it },
+                label = { Text("Repita Contraseña") },
+                placeholder = { Text("") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 0.dp),
+                singleLine = true,
+                maxLines = 1,
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.Transparent,
+                )
+            )
             // login button
             Button(
                 onClick = {},
@@ -112,27 +145,7 @@ public fun LoginScreen(
                     .padding(top = 15.dp)
                     .fillMaxWidth(),
             ) {
-                Text(("Ingresar").toUpperCase())
-            }
-            // login with google button
-            Button(
-                onClick = {},
-                shape = CutCornerShape(0),
-                modifier = Modifier
-                    .padding(top = 0.dp)
-                    .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF4CAF50))
-            ) {
-                Image(
-                    painterResource(id = R.drawable.ic_google),
-                    contentDescription ="Cart button icon",
-                    modifier = Modifier.size(22.dp).padding(end = 10.dp),
-                    colorFilter = ColorFilter.tint(Color.White)
-                )
-                Text(
-                    ("Ingresar con Google").toUpperCase(),
-                    color = Color.White
-                )
+                Text(("Crear Cuenta").toUpperCase())
             }
             // hr
             Divider(
@@ -140,15 +153,15 @@ public fun LoginScreen(
                 thickness = 2.dp,
                 color = Color.Gray
             )
-            // sign in button
+            // login in button
             Button(
-                onClick = { goToSignIn() },
+                onClick = { goToLogin() },
                 shape = CutCornerShape(0),
                 modifier = Modifier
                     .padding(top = 0.dp)
                     .fillMaxWidth(),
             ) {
-                Text(("Ir a Crear Cuenta").toUpperCase())
+                Text(("Ir a Ingresar al Sistema").toUpperCase())
             }
             // reset password in button
             Button(
