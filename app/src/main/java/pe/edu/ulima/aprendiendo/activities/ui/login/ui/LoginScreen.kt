@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.runtime.*
@@ -46,7 +47,7 @@ public fun LoginScreen(
         Image(
             painter = painterResource(R.drawable.ic_close),
             contentDescription = "your image",
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(5.dp)
                 .align(Alignment.TopEnd)
                 .clickable(onClick = onClick),
             colorFilter = if (isSystemInDarkTheme()) ColorFilter.tint(Color.White) else ColorFilter.tint(Color.Black),

@@ -47,7 +47,7 @@ fun ResetPasswordScreen(
         Image(
             painter = painterResource(R.drawable.ic_close),
             contentDescription = "your image",
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(5.dp)
                 .align(Alignment.TopEnd)
                 .clickable(onClick = onClick),
             colorFilter = if (isSystemInDarkTheme()) ColorFilter.tint(Color.White) else ColorFilter.tint(Color.Black),
