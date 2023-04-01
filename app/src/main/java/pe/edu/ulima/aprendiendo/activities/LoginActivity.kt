@@ -12,12 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import pe.edu.ulima.aprendiendo.activities.ui.login.ui.LoginScreen
 import pe.edu.ulima.aprendiendo.activities.ui.login.ui.LoginViewModel
+import pe.edu.ulima.aprendiendo.activities.ui.login.ui.ResetPasswordViewModel
 import pe.edu.ulima.aprendiendo.activities.ui.theme.AprendiendoTheme
 import pe.edu.ulima.aprendiendo.navigations.LoginNavigation
 
 class LoginActivity : ComponentActivity() {
+    val loginViewModel: LoginViewModel = LoginViewModel()
+    val resetPasswordViewModel: ResetPasswordViewModel = ResetPasswordViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        var loginViewModel: LoginViewModel = LoginViewModel()
         super.onCreate(savedInstanceState)
         setContent {
             AprendiendoTheme {
@@ -26,7 +29,7 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LoginNavigation(loginViewModel)
+                    LoginNavigation(loginViewModel, resetPasswordViewModel)
                 }
             }
         }

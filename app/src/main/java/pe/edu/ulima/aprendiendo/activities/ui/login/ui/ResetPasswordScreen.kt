@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.*
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +27,7 @@ import pe.edu.ulima.aprendiendo.R
 @Composable
 fun ResetPasswordScreenPreview() {
     ResetPasswordScreen(
+        ResetPasswordViewModel(),
         goToLogin = {},
         goToSignIn = {}
     )
@@ -33,10 +35,12 @@ fun ResetPasswordScreenPreview() {
 
 @Composable
 fun ResetPasswordScreen(
+    viewModel: ResetPasswordViewModel,
     goToLogin: () -> Unit,
     goToSignIn: () -> Unit
 ) {
     val context = LocalContext.current as Activity
+    val error: Boolean by viewModel.error.observeAsState(initial = false)
     var emailTState by remember { mutableStateOf(TextFieldValue()) }
 
     val onClick: () -> Unit = {
@@ -75,6 +79,14 @@ fun ResetPasswordScreen(
                 text = "Generar Nueva Contraseña",
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
             )
+            // message error
+            if(error){
+                Text(
+                    text = "Función aún no implementada en el servidor",
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally).padding(top=5.dp),
+                    color = Color(0xFFDF2853)
+                )
+            }
             // correo
             TextField(
                 value = emailTState,
@@ -88,15 +100,19 @@ fun ResetPasswordScreen(
                 maxLines = 1,
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Transparent,
-                )
+                ),
+                enabled = !error
             )
             // login button
             Button(
-                onClick = {},
+                onClick = {
+                    viewModel.updateError(true)
+                },
                 shape = CutCornerShape(0),
                 modifier = Modifier
                     .padding(top = 15.dp)
                     .fillMaxWidth(),
+                enabled = !error
             ) {
                 Text(("Enviar Correo").toUpperCase())
             }

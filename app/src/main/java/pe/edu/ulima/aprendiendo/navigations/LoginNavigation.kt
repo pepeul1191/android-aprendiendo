@@ -5,14 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import pe.edu.ulima.aprendiendo.activities.ui.login.ui.LoginScreen
-import pe.edu.ulima.aprendiendo.activities.ui.login.ui.LoginViewModel
-import pe.edu.ulima.aprendiendo.activities.ui.login.ui.ResetPasswordScreen
-import pe.edu.ulima.aprendiendo.activities.ui.login.ui.SignInScreen
+import pe.edu.ulima.aprendiendo.activities.ui.login.ui.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun LoginNavigation(loginViewModel: LoginViewModel) {
+fun LoginNavigation(
+    loginViewModel: LoginViewModel,
+    resetPasswordViewModel: ResetPasswordViewModel
+) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.LoginScreen.route){
         composable(route = Screen.LoginScreen.route){
@@ -41,6 +41,7 @@ fun LoginNavigation(loginViewModel: LoginViewModel) {
         composable(route = Screen.ResetPasswordScreen.route){
             // LoadLoginScreen(navController = navController)
             ResetPasswordScreen(
+                resetPasswordViewModel,
                 goToLogin = {
                     navController.navigate(Screen.LoginScreen.route)
                 },

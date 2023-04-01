@@ -240,13 +240,14 @@ public fun SignInScreen(goToLogin: () -> Unit,
                         modifier = Modifier.padding(start = 8.dp)
                     )
                 }
-                // login button
+                // sign in button
                 Button(
                     onClick = {},
                     shape = CutCornerShape(0),
                     modifier = Modifier
                         .padding(top = 15.dp)
                         .fillMaxWidth(),
+                    enabled = termsCkState
                 ) {
                     Text(("Crear Cuenta").toUpperCase())
                 }
