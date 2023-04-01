@@ -3,10 +3,7 @@ package pe.edu.ulima.aprendiendo.activities.ui.login.ui
 import android.app.Activity
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,14 +16,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.mukesh.MarkDown
 import kotlinx.coroutines.launch
 import pe.edu.ulima.aprendiendo.R
+import java.net.URL
 
 @ExperimentalMaterialApi
 @Preview
@@ -59,7 +60,6 @@ public fun SignInScreen(goToLogin: () -> Unit,
     )
     val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = sheetState)
     val scope = rememberCoroutineScope()
-    val bottomSheet = SignInTermsModal()
     // bottom sheet
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
@@ -68,14 +68,49 @@ public fun SignInScreen(goToLogin: () -> Unit,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(700.dp)
+                    .padding(10.dp)
             ){
-                Text(
-                    text = "Bottom Sheet",
-                    fontSize = 60.sp
+                /*
+                MarkDown(
+                    url = URL("https://raw.githubusercontent.com/mukeshsolanki/MarkdownView-Android/main/README.md"),
+                    modifier = Modifier.fillMaxSize()
                 )
+                */
+                Text(
+                    text = "Términos y Condiciones",
+                    modifier = Modifier.align(Alignment.TopCenter).padding(5.dp),
+                    style = TextStyle(fontSize = 20.sp),
+                    color = Color(0xFFDF2853)
+                )
+                Row(
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                ) {
+                    Button(
+                        onClick = {
+                            termsCkState = true
+                            scope.launch{
+                            sheetState.collapse()
+                            } },
+                        modifier = Modifier.weight(1f).padding(5.dp),
+                        shape = CutCornerShape(0),
+                    ) {
+                        Text(text = "Acepto")
+                    }
+                    Button(
+                        onClick = {
+                            termsCkState = false
+                            scope.launch{
+                                sheetState.collapse()
+                            }
+                        },
+                        modifier = Modifier.weight(1f).padding(5.dp),
+                        shape = CutCornerShape(0),
+                    ) {
+                        Text(text = "No Acpeto")
+                    }
+                }
             }
         },
-        sheetBackgroundColor = Color.Green,
         sheetPeekHeight = 0.dp
     ) {
         // close
@@ -189,7 +224,7 @@ public fun SignInScreen(goToLogin: () -> Unit,
                     Checkbox(
                         checked = termsCkState,
                         onCheckedChange = {
-                            termsCkState = it
+                            // termsCkState = it
                             scope.launch{
                                 if(sheetState.isCollapsed){
                                     sheetState.expand()

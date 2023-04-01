@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +26,7 @@ import pe.edu.ulima.aprendiendo.R
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(
+        LoginViewModel(),
         goToSignIn = {},
         goToResetPassword = {},
     )
@@ -32,13 +34,16 @@ fun LoginScreenPreview() {
 
 @Composable
 public fun LoginScreen(
+    viewModel: LoginViewModel,
     goToSignIn: () -> Unit,
     goToResetPassword: () -> Unit
 ) {
     val context = LocalContext.current as Activity
-    var userTState by remember { mutableStateOf(TextFieldValue()) }
-    var passwordTState by remember { mutableStateOf(TextFieldValue()) }
-
+    val user: String by viewModel.user.observeAsState(initial = "")
+    val password: String by viewModel.password.observeAsState(initial = "")
+    //var userTState by remember { mutableStateOf(TextFieldValue()) }
+    //var passwordTState by remember { mutableStateOf(TextFieldValue()) }
+    
     val onClick: () -> Unit = {
         context.finish()
     }
@@ -47,7 +52,8 @@ public fun LoginScreen(
         Image(
             painter = painterResource(R.drawable.ic_close),
             contentDescription = "your image",
-            modifier = Modifier.padding(5.dp)
+            modifier = Modifier
+                .padding(5.dp)
                 .align(Alignment.TopEnd)
                 .clickable(onClick = onClick),
             colorFilter = if (isSystemInDarkTheme()) ColorFilter.tint(Color.White) else ColorFilter.tint(Color.Black),
@@ -58,7 +64,7 @@ public fun LoginScreen(
         contentAlignment = Alignment.CenterStart,
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)) {
+            .padding(5.dp)) {
         Column(modifier = Modifier.padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
@@ -66,7 +72,9 @@ public fun LoginScreen(
             Image(
                 painterResource(id = R.drawable.ic_ulima),
                 contentDescription ="Logo ULima",
-                modifier = Modifier.size(125.dp).padding(bottom = 20.dp),
+                modifier = Modifier
+                    .size(125.dp)
+                    .padding(bottom = 20.dp),
                 colorFilter = if (isSystemInDarkTheme()) ColorFilter.tint(Color.White) else ColorFilter.tint(Color.Black),
                 contentScale = ContentScale.Fit,
             )
@@ -77,8 +85,9 @@ public fun LoginScreen(
             )
             // usuario
             TextField(
-                value = userTState,
-                onValueChange = { userTState = it },
+                value = user,
+                // onValueChange = { user = it },
+                onValueChange = { viewModel.updateUser(it) },
                 label = { Text("Usuario") },
                 placeholder = { Text("") },
                 modifier = Modifier
@@ -92,8 +101,11 @@ public fun LoginScreen(
             )
             // contraeña
             TextField(
-                value = passwordTState,
-                onValueChange = { passwordTState = it },
+                value = password,
+                //onValueChange = { passwordTState = it },
+                onValueChange = {
+                    viewModel.updatePassword(it)
+                },
                 label = { Text("Contraseña") },
                 placeholder = { Text("") },
                 modifier = Modifier
@@ -107,7 +119,9 @@ public fun LoginScreen(
             )
             // login button
             Button(
-                onClick = {},
+                onClick = {
+                    viewModel.login()
+                },
                 shape = CutCornerShape(0),
                 modifier = Modifier
                     .padding(top = 15.dp)
@@ -117,7 +131,8 @@ public fun LoginScreen(
             }
             // login with google button
             Button(
-                onClick = {},
+                onClick = {
+                },
                 shape = CutCornerShape(0),
                 modifier = Modifier
                     .padding(top = 0.dp)
@@ -127,7 +142,9 @@ public fun LoginScreen(
                 Image(
                     painterResource(id = R.drawable.ic_google),
                     contentDescription ="Cart button icon",
-                    modifier = Modifier.size(22.dp).padding(end = 10.dp),
+                    modifier = Modifier
+                        .size(22.dp)
+                        .padding(end = 10.dp),
                     colorFilter = ColorFilter.tint(Color.White)
                 )
                 Text(
@@ -137,7 +154,9 @@ public fun LoginScreen(
             }
             // hr
             Divider(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp, top = 10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 10.dp, top = 10.dp),
                 thickness = 2.dp,
                 color = Color.Gray
             )

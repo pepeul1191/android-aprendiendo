@@ -58,7 +58,7 @@ fun ResetPasswordScreen(
         contentAlignment = Alignment.CenterStart,
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)) {
+            .padding(5.dp)) {
         Column(modifier = Modifier.padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
