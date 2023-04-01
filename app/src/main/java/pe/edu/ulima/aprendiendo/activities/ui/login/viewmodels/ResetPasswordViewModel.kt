@@ -1,4 +1,4 @@
-package pe.edu.ulima.aprendiendo.activities.ui.login.ui
+package pe.edu.ulima.aprendiendo.activities.ui.login.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

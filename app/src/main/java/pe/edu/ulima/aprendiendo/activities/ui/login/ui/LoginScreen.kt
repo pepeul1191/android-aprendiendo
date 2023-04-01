@@ -1,12 +1,13 @@
 package pe.edu.ulima.aprendiendo.activities.ui.login.ui
 
 import android.app.Activity
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.runtime.*
@@ -17,10 +18,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import pe.edu.ulima.aprendiendo.R
+import pe.edu.ulima.aprendiendo.activities.ui.login.viewmodels.LoginViewModel
 
 @Preview
 @Composable
@@ -115,12 +120,14 @@ public fun LoginScreen(
                 maxLines = 1,
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Transparent,
-                )
+                ),
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
             // login button
             Button(
                 onClick = {
-                    viewModel.login()
+                    viewModel.login(context)
                 },
                 shape = CutCornerShape(0),
                 modifier = Modifier

@@ -18,9 +18,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import pe.edu.ulima.aprendiendo.R
+import pe.edu.ulima.aprendiendo.activities.ui.login.viewmodels.ResetPasswordViewModel
 
 
 @Preview

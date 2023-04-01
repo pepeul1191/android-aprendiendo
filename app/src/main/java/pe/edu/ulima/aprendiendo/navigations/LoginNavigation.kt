@@ -6,6 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import pe.edu.ulima.aprendiendo.activities.ui.login.ui.*
+import pe.edu.ulima.aprendiendo.activities.ui.login.viewmodels.LoginViewModel
+import pe.edu.ulima.aprendiendo.activities.ui.login.viewmodels.ResetPasswordViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
