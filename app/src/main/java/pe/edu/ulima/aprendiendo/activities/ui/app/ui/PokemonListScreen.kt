@@ -47,14 +47,6 @@ public fun PokemonListScreen(
             TopBar()
         }
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = "Listado de pokemones"
-            )
-        }
         LazyColumn(
 
         ){

@@ -1,6 +1,7 @@
 package pe.edu.ulima.aprendiendo.activities.ui.app.ui
 
 import android.app.Activity
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pe.edu.ulima.aprendiendo.R
+import pe.edu.ulima.aprendiendo.activities.AppActivity
+import pe.edu.ulima.aprendiendo.activities.UploadActivity
 
 @Preview
 @Composable
@@ -93,7 +96,6 @@ fun ShareAction(){
 fun MoreAction(){
     var expanded by remember { mutableStateOf(false)}
     val context = LocalContext.current
-
     IconButton(
         onClick = {
             expanded = true
@@ -113,6 +115,7 @@ fun MoreAction(){
             DropdownMenuItem(
                 onClick = {
                     expanded = false
+                    context.startActivity(Intent(context, UploadActivity::class.java))
                 }
             ){
                 Text(
