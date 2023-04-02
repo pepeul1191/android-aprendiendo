@@ -2,6 +2,8 @@ package pe.edu.ulima.aprendiendo.activities.ui.login.ui
 
 import android.app.Activity
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -48,7 +50,6 @@ public fun LoginScreen(
     val password: String by viewModel.password.observeAsState(initial = "")
     //var userTState by remember { mutableStateOf(TextFieldValue()) }
     //var passwordTState by remember { mutableStateOf(TextFieldValue()) }
-    
     val onClick: () -> Unit = {
         context.finish()
     }

@@ -7,16 +7,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import pe.edu.ulima.aprendiendo.activities.ui.app.viewmodels.PokemonListViewModel
 import pe.edu.ulima.aprendiendo.activities.ui.login.viewmodels.LoginViewModel
 import pe.edu.ulima.aprendiendo.activities.ui.login.viewmodels.ResetPasswordViewModel
 import pe.edu.ulima.aprendiendo.activities.ui.login.viewmodels.SignInViewModel
 import pe.edu.ulima.aprendiendo.activities.ui.theme.AprendiendoTheme
+import pe.edu.ulima.aprendiendo.navigations.AppNavigation
 import pe.edu.ulima.aprendiendo.navigations.LoginNavigation
 
-class LoginActivity : ComponentActivity() {
-    val loginViewModel: LoginViewModel = LoginViewModel()
-    val resetPasswordViewModel: ResetPasswordViewModel = ResetPasswordViewModel()
-    val signInViewModel: SignInViewModel = SignInViewModel()
+class AppActivity: ComponentActivity() {
+    val pokemonListViewModel: PokemonListViewModel = PokemonListViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +27,8 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LoginNavigation(
-                        loginViewModel,
-                        resetPasswordViewModel,
-                        signInViewModel
+                    AppNavigation(
+                        pokemonListViewModel,
                     )
                 }
             }

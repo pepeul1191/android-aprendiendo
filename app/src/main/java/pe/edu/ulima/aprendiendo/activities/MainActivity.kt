@@ -26,4 +26,8 @@ class MainActivity : AppCompatActivity() {
             quoteViewModel.randomQuote()
         }
     }
+
+    override fun onBackPressed() {
+        finishAffinity()
+    }
 }

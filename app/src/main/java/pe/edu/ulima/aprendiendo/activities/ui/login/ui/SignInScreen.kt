@@ -7,9 +7,11 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,9 +19,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,6 +30,7 @@ import androidx.navigation.NavController
 import com.mukesh.MarkDown
 import kotlinx.coroutines.launch
 import pe.edu.ulima.aprendiendo.R
+import pe.edu.ulima.aprendiendo.activities.ui.login.viewmodels.SignInViewModel
 import java.net.URL
 
 @ExperimentalMaterialApi
@@ -34,6 +38,7 @@ import java.net.URL
 @Composable
 fun SignInScreenPreview() {
     SignInScreen(
+        SignInViewModel(),
         goToLogin = {},
         goToResetPassword = {},
     )
@@ -41,15 +46,22 @@ fun SignInScreenPreview() {
 
 @ExperimentalMaterialApi
 @Composable
-public fun SignInScreen(goToLogin: () -> Unit,
-                        goToResetPassword: () -> Unit){
+public fun SignInScreen(
+    viewModel: SignInViewModel,
+    goToLogin: () -> Unit,
+    goToResetPassword: () -> Unit
+){
     // sign form - values
     val context = LocalContext.current as Activity
+    val user: String by viewModel.user.observeAsState(initial = "")
+    val email: String by viewModel.email.observeAsState(initial = "")
+    val password: String by viewModel.password.observeAsState(initial = "")
+    val password2: String by viewModel.password2.observeAsState(initial = "")
+    //var emailTState by remember { mutableStateOf(TextFieldValue()) }
+    //var userTState by remember { mutableStateOf(TextFieldValue()) }
+    //var passwordTState by remember { mutableStateOf(TextFieldValue()) }
+    //var password2TState by remember { mutableStateOf(TextFieldValue()) }
     var termsCkState by remember { mutableStateOf(false) }
-    var emailTState by remember { mutableStateOf(TextFieldValue()) }
-    var userTState by remember { mutableStateOf(TextFieldValue()) }
-    var passwordTState by remember { mutableStateOf(TextFieldValue()) }
-    var password2TState by remember { mutableStateOf(TextFieldValue()) }
     var termsVisible by remember { mutableStateOf(false) }
     // bottom sheet - values
     val sheetState = rememberBottomSheetState(
@@ -153,8 +165,8 @@ public fun SignInScreen(goToLogin: () -> Unit,
                 )
                 // email
                 TextField(
-                    value = emailTState,
-                    onValueChange = { emailTState = it },
+                    value = email,
+                    onValueChange = { viewModel.updateEmail(it) },
                     label = { Text("Correo Electrónico") },
                     placeholder = { Text("") },
                     modifier = Modifier
@@ -165,12 +177,16 @@ public fun SignInScreen(goToLogin: () -> Unit,
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.Transparent,
                     ),
-                    enabled = termsCkState
+                    enabled = termsCkState,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Next
+                    )
                 )
                 // usuario
                 TextField(
-                    value = userTState,
-                    onValueChange = { userTState = it },
+                    value = user,
+                    onValueChange = { viewModel.updateUser(it) },
                     label = { Text("Usuario") },
                     placeholder = { Text("") },
                     modifier = Modifier
@@ -185,8 +201,8 @@ public fun SignInScreen(goToLogin: () -> Unit,
                 )
                 // contraeña
                 TextField(
-                    value = passwordTState,
-                    onValueChange = { passwordTState = it },
+                    value = password,
+                    onValueChange = { viewModel.updatePassword(it) },
                     label = { Text("Contraseña") },
                     placeholder = { Text("") },
                     modifier = Modifier
@@ -197,12 +213,14 @@ public fun SignInScreen(goToLogin: () -> Unit,
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.Transparent,
                     ),
-                    enabled = termsCkState
+                    enabled = termsCkState,
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                 )
                 // contraeña2
                 TextField(
-                    value = password2TState,
-                    onValueChange = { password2TState = it },
+                    value = password2,
+                    onValueChange = { viewModel.updatePassword2(it) },
                     label = { Text("Repita Contraseña") },
                     placeholder = { Text("") },
                     modifier = Modifier
@@ -213,7 +231,9 @@ public fun SignInScreen(goToLogin: () -> Unit,
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.Transparent,
                     ),
-                    enabled = termsCkState
+                    enabled = termsCkState,
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                 )
                 // checkbox
                 Row(
@@ -242,7 +262,9 @@ public fun SignInScreen(goToLogin: () -> Unit,
                 }
                 // sign in button
                 Button(
-                    onClick = {},
+                    onClick = {
+                        viewModel.signIn(context)
+                    },
                     shape = CutCornerShape(0),
                     modifier = Modifier
                         .padding(top = 15.dp)
