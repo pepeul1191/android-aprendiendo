@@ -117,7 +117,5 @@ public fun PokemonListScreen(
             }
         }
     }
-
-
 }
 

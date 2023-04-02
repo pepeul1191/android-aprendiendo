@@ -9,3 +9,4 @@ https://stackoverflow.com/questions/42906083/margin-are-changed-while-scrolling-
 
 Navbar
 https://www.youtube.com/watch?v=uo1nOcWGzKU
+https://www.youtube.com/watch?v=rmam-lHpdfg

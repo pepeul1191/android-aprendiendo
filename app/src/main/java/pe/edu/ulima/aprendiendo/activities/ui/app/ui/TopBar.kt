@@ -1,17 +1,15 @@
 package pe.edu.ulima.aprendiendo.activities.ui.app.ui
 
+import android.app.Activity
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -93,10 +91,12 @@ fun ShareAction(){
 
 @Composable
 fun MoreAction(){
+    var expanded by remember { mutableStateOf(false)}
     val context = LocalContext.current
+
     IconButton(
         onClick = {
-            Toast.makeText(context,"Más???", Toast.LENGTH_SHORT).show()
+            expanded = true
         }
     ){
         Icon(
@@ -104,5 +104,33 @@ fun MoreAction(){
             contentDescription = "icono más",
             tint = Color.White
         )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = {
+                expanded = false
+            }
+        ) {
+            DropdownMenuItem(
+                onClick = {
+                    expanded = false
+                }
+            ){
+                Text(
+                    text = "Editar Perfil"
+                )
+            }
+            DropdownMenuItem(
+                onClick = {
+                    expanded = false
+                    (context as? Activity)?.run {
+                        finishAffinity()
+                    }
+                }
+            ){
+                Text(
+                    text = "Salir"
+                )
+            }
+        }
     }
 }
