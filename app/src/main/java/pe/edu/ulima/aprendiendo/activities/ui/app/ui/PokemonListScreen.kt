@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -37,7 +38,9 @@ public fun PokemonListScreen(
     val context = LocalContext.current as Activity
     val pokemonList: List<PokemonGeneration> by viewModel.pokemonList.observeAsState(initial = mutableListOf())
 
-    viewModel.fetch("", context)
+    LaunchedEffect(Unit, block = {
+        viewModel.fetch("", context)
+    })
 
     Text(
         text = "Listado de pokemones"

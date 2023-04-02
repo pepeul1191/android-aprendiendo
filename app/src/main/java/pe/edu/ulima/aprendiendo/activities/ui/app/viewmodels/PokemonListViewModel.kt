@@ -23,9 +23,10 @@ class PokemonListViewModel : ViewModel() {
         val apiService = BackendClient.buildService(PokemonService::class.java)
         thread  {
             try {
+                println("1++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                 val response = apiService.fetch(pokemonName, "").execute()
                 if (response.isSuccessful) {
-                    Log.d("PokemonList", response.body().toString())
+                    // Log.d("PokemonList", response.body().toString())
                     _pokemonList.postValue(response.body())
                 } else {
                     // Handle error
