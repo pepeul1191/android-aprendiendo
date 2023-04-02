@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,77 +38,86 @@ public fun PokemonListScreen(
 ){
     val context = LocalContext.current as Activity
     val pokemonList: List<PokemonGeneration> by viewModel.pokemonList.observeAsState(initial = mutableListOf())
-
     LaunchedEffect(Unit, block = {
         viewModel.fetch("", context)
     })
-
-    Text(
-        text = "Listado de pokemones"
-    )
-    LazyColumn(
-
-    ){
-        item{
+    
+    Scaffold(
+        topBar = {
+            TopBar()
+        }
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
             Text(
-                text = "Nombre"
+                text = "Listado de pokemones"
             )
         }
-        items(pokemonList){
-            val pokemon: PokemonGeneration = it
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
-                Box(
+        LazyColumn(
+
+        ){
+            item{
+            }
+            items(pokemonList){
+                val pokemon: PokemonGeneration = it
+                Row(
                     modifier = Modifier
-                        .weight(1f)
-                        .height(100.dp)
-                        .background(Color.Transparent),
-                    contentAlignment = Alignment.Center
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ){
-                    Image(
-                        painter = rememberImagePainter(data = pokemon.imageURL),
-                        contentDescription = pokemon.name, // TODO: Provide a meaningful description
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(100.dp, 100.dp),
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(100.dp)
-                        .background(Color.Transparent),
-                ){
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(100.dp)
+                            .background(Color.Transparent),
+                        contentAlignment = Alignment.Center
                     ){
-                        Text(
-                            text = "Número: ${pokemon.number}"
-                        )
-                        Text(
-                            text = "Nombre: ${pokemon.name}"
-                        )
-                        Text(
-                            text = "Altura: ${pokemon.height} m"
-                        )
-                        Text(
-                            text = "Peso: ${pokemon.weight} kg"
+                        Image(
+                            painter = rememberImagePainter(data = pokemon.imageURL),
+                            contentDescription = pokemon.name, // TODO: Provide a meaningful description
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.size(100.dp, 100.dp),
                         )
                     }
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(100.dp)
+                            .background(Color.Transparent),
+                    ){
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                        ){
+                            Text(
+                                text = "Número: ${pokemon.number}"
+                            )
+                            Text(
+                                text = "Nombre: ${pokemon.name}"
+                            )
+                            Text(
+                                text = "Altura: ${pokemon.height} m"
+                            )
+                            Text(
+                                text = "Peso: ${pokemon.weight} kg"
+                            )
+                        }
+                    }
                 }
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 0.dp, top = 0.dp),
+                    thickness = 2.dp,
+                    color = Color.Gray
+                )
             }
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 0.dp, top = 0.dp),
-                thickness = 2.dp,
-                color = Color.Gray
-            )
         }
     }
+
+
 }
 

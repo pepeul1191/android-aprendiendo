@@ -6,3 +6,6 @@ Teoría
 https://developer.android.com/topic/libraries/architecture/viewmodel?hl=es-419
 
 https://stackoverflow.com/questions/42906083/margin-are-changed-while-scrolling-in-recycerview
+
+Navbar
+https://www.youtube.com/watch?v=uo1nOcWGzKU
