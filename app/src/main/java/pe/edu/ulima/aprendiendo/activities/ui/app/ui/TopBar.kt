@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pe.edu.ulima.aprendiendo.R
 import pe.edu.ulima.aprendiendo.activities.AppActivity
+import pe.edu.ulima.aprendiendo.activities.PokemonListActivity
 import pe.edu.ulima.aprendiendo.activities.UploadActivity
 
 @Preview
@@ -120,6 +121,16 @@ fun MoreAction(){
             ){
                 Text(
                     text = "Editar Perfil"
+                )
+            }
+            DropdownMenuItem(
+                onClick = {
+                    expanded = false
+                    context.startActivity(Intent(context, PokemonListActivity::class.java))
+                }
+            ){
+                Text(
+                    text = "Listado antiguo"
                 )
             }
             DropdownMenuItem(

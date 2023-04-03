@@ -29,6 +29,7 @@ import pe.edu.ulima.aprendiendo.models.beans.PokemonGeneration
 import coil.compose.rememberImagePainter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import pe.edu.ulima.aprendiendo.models.beans.GenerationOption
 
 @Preview
 @Composable
@@ -45,6 +46,8 @@ public fun PokemonListScreen(
 ){
     val context = LocalContext.current as Activity
     val pokemonList: List<PokemonGeneration> by viewModel.pokemonList.observeAsState(initial = mutableListOf())
+    val generationList: List<GenerationOption> by viewModel.generationList.observeAsState(initial = mutableListOf())
+
     LaunchedEffect(Unit, block = {
         viewModel.fetch("", context)
     })
@@ -57,7 +60,6 @@ public fun PokemonListScreen(
     )
     val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = sheetState)
     val scope = rememberCoroutineScope()
-    
     Scaffold(
         topBar = {
             TopBar()
@@ -69,7 +71,7 @@ public fun PokemonListScreen(
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
             sheetContent = {
-                sheetFilters()
+                sheetFilters(generationList)
             },
             sheetPeekHeight = 0.dp
         ){
@@ -79,20 +81,40 @@ public fun PokemonListScreen(
 }
 
 @Composable
-fun sheetFilters(){
+fun sheetFilters(generationList: List<GenerationOption>){
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp)
             .padding(10.dp)
     ){
-        Text("hola mundo")
+            LazyColumn(
+        ){
+            items(generationList){ generation ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Checkbox(
+                        checked = generation.selected,
+                        onCheckedChange = { checked ->
+                            //generationModel(generation, checked)
+                        }
+                    )
+                    Text(
+                        generation.name
+                    )
+                }
+            }
+        }
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun floatingButton(scope: CoroutineScope, sheetState: BottomSheetState ){
+fun floatingButton(scope: CoroutineScope, sheetState: BottomSheetState){
     FloatingActionButton(
         onClick = {
         }
@@ -117,8 +139,6 @@ fun floatingButton(scope: CoroutineScope, sheetState: BottomSheetState ){
 fun pokemonListView(pokemonList: List<PokemonGeneration>){
     LazyColumn(
     ){
-        item{
-        }
         items(pokemonList){
             val pokemon: PokemonGeneration = it
             Row(
@@ -136,7 +156,7 @@ fun pokemonListView(pokemonList: List<PokemonGeneration>){
                 ){
                     Image(
                         painter = rememberImagePainter(data = pokemon.imageURL),
-                        contentDescription = pokemon.name, // TODO: Provide a meaningful description
+                        contentDescription = pokemon.name,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.size(100.dp, 100.dp),
                     )
